@@ -91,23 +91,6 @@ def signup_post():
         return redirect(f"/")
 
 ################################################################################
-@app.route('/profile/<int:user_id>')
-def userprofile(user_id):
-    """This is the user's homepage."""
-    
-    user = User.query.get(user_id)
-#    for activity in parent.activities:
-#        activity.matches = Activity.query.get(activity.activity_id).parents
-
-
-
-    #children = Child.query.filter(Child.parents.parent_id==parent_id).all()
-    #activities = Activity.query.filter(Activity.parents.parent_id==parent_id).all()
-
-    return render_template("profile.html",
-                           #children=children,
-                           #activities=activities,
-                           parent=parent)
 ################################################################################
 
 
