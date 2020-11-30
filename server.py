@@ -119,11 +119,11 @@ def signup_post():
 
 
 
-@app.route('/add-user')
-def add_user():
-    """View add user page"""
+# @app.route('/add-user')
+# def add_user():
+#     """View add user page"""
 
-    return render_template('register-form.html')
+#     return render_template('register-form.html')
 
 @app.route('/signin')
 def signin():
@@ -141,7 +141,7 @@ def login_user_post():
     email = request.form.get('email')
     password = request.form.get('password')
 
-    user = crud.check_user_login_info(email, password)
+    usercrud.check_user_login_info(email, password)
 
     if user:
         session["user_id"] = user.user_id

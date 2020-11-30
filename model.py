@@ -19,8 +19,8 @@ class User(db.Model):
 
     def __repr__(self):
         return f'<User user_id={self.user_id} email={self.email}>'
-    def get_id(self):
-        return (self.user_id)
+    # def get_id(self):
+    #     return (self.user_id)
     
 
 class Blog(db.Model):
@@ -29,16 +29,16 @@ class Blog(db.Model):
     __tablename__ = "blogs"
 
     blog_id = db.Column(db.Integer,primary_key=True)
-    blog_created_datetime = db.Column(db.Integer)
-    blog_title = db.Column(db.String(25))
+    title = db.Column(db.String(25))
+    overview = db.Column(db.String)
 # refereing to only one blog
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 
-    blogentries = db.relationship('BlogEntry', backref='blog')
+    # blogentries = db.relationship('BlogEntry', backref='blog')
     # users = db.relationship('User', backref='blogs')
 
     def __repr__(self):
-        return f'<Blog blogs_id={self.blogs_id} blogs_created_datetime={self.blogs_created_datetime} blog_title{self.blog_title}>'
+        return f'<Blog blogs_id={self.blogs_id}, title{self.title}>'
 
 class BlogEntry(db.Model):
     """A entry."""
@@ -92,7 +92,7 @@ if __name__ == '__main__':
     from server import app
 
     connect_to_db(app)
-    db.create_all()
+   
 
 # ===================================================================
 # Helper functions
