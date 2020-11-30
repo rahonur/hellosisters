@@ -14,13 +14,14 @@ class User(db.Model):
     username = db.Column(db.String(25))
     email = db.Column(db.String(25), unique=True)
     password = db.Column(db.String(25), unique=True)
-
+    aboutme = db.Column(db.String)
     blogs = db.relationship('Blog', backref='users')
 
     def __repr__(self):
         return f'<User user_id={self.user_id} email={self.email}>'
     def get_id(self):
         return (self.user_id)
+    
 
 class Blog(db.Model):
     """A blog."""
@@ -33,7 +34,7 @@ class Blog(db.Model):
 # refereing to only one blog
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 
-    blogentries = db.relationship('BlogEntry', backref='blogs')
+    blogentries = db.relationship('BlogEntry', backref='blog')
     # users = db.relationship('User', backref='blogs')
 
     def __repr__(self):
@@ -47,6 +48,7 @@ class BlogEntry(db.Model):
     entry_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     blog_id = db.Column(db.Integer, db.ForeignKey('blogs.blog_id'))
     entry_datetime = db.Column(db.Integer)
+    content=db.Column(db.String)
 
     # blogcomments = db.relationship('BlogEntries', backref='blogentries', secondary='entry_id')
 
@@ -63,6 +65,7 @@ class Comment(db.Model):
     comment_datetime= db.Column(db.String)
     blog_id= db.Column(db.ForeignKey('blogs.blog_id'))
     user_id= db.Column(db.ForeignKey('users.user_id'))
+    content= db.Column(db.String)
     
     
     

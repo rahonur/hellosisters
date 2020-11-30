@@ -31,7 +31,7 @@ def index():
 
     if 'username' in session:
         username = session['username']
-        User = User.query.filter_by(username=username).first_or_404()
+        user = User.query.filter_by(username=username).first_or_404()
 
         blogs = Blog.query.all()
 
@@ -40,7 +40,7 @@ def index():
         # blogcomments = BlogComment.query.all()
 
         return render_template("profile.html", user=user,blogs = blogs, 
-        users=users, username=username)
+        users=user, username=username)
 
     else:
         return render_template('index.html')
@@ -58,12 +58,14 @@ def login():
 def login_post():
     username = request.form["username"]
     password = request.form["password"]
-
-    check_user = User.query.filter_by(username = username).first()
-
+    print (username,password)
+    print ("****************************************")
+    check_user =User.query.filter_by(username = username).first()
+    
     if check_user.password == password:
-        login_user(check_user)
-        return redirect(f"/profile/{check_user.user_id}")
+       # login_user(check_user)
+       print ("*****************************************")
+       return redirect(f'/profile/{check_user.user_id}')
     else:
         flash("Incorrect username and/or password. Please try again.")
         return redirect("/login")
@@ -115,11 +117,7 @@ def signup_post():
 
 #return render_template('about.html')
 
-# @app.route('/main-menu')
-# def show_main_menu():
-#     """Go to references page"""
 
-#     return render_template('main-menu.html')
 
 @app.route('/add-user')
 def add_user():
@@ -137,7 +135,7 @@ def signin():
     return render_template('login.html')
 
 @app.route('/login', methods=['POST'])
-def login_user():
+def login_user_post():
     """Log a user into the website"""
 
     email = request.form.get('email')
@@ -153,10 +151,25 @@ def login_user():
         flash('Login info is incorrect, try again.')
         return redirect('/signin')
 
-# @app.route('/profile')
-# def profile():
+@app.route('/profile/<user_id>')
+def profile(user_id):
+    """display user's profile page"""
+    
+    user=User.query.get(user_id)
+    print (user)
+    
+    return render_template("profile.html",user=user)
 
-#     """display user's profile page"""
+
+@app.route('/blogs')
+def blogs ():
+    """display all blogs"""
+    
+    blogs=Blog.query.all()
+    print (blogs)
+    
+    return render_template("blogs.html",blogs=blogs)
+    
 if __name__ == '__main__':
     connect_to_db(app)
     app.run(port=5000, host='0.0.0.0', debug=True)
